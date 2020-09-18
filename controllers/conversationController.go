@@ -6,19 +6,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var conversationRouter *gin.RouterGroup
+var _ConversationRouter *gin.RouterGroup
 
 func init() {
 
 }
 
-func StartConversationController(router *gin.Engine) {
-	conversationRouter = router.Group("conversation")
+func _StartConversationController() {
+	_ConversationRouter = _Router.Group("conversation")
 	startGetMessagesEndpoint()
 }
 
 func startGetMessagesEndpoint() {
-	conversationRouter.GET("", func(ctx *gin.Context) {
+	_ConversationRouter.GET("", func(ctx *gin.Context) {
 		userId := ctx.Request.Header.Get("userId")
 		conversationId := ctx.Request.Header.Get("conversationId")
 		conversation, err := services.ConversationService.GetConversation(userId, models.Conversation{

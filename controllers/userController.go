@@ -6,16 +6,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var userRouter gin.RouterGroup
+var _UserRouter *gin.RouterGroup
 
-func StartUserController(router *gin.Engine) {
-	userRouter = *router.Group("/user")
+func _StartUserController() {
+	_UserRouter = _Router.Group("/user")
 	startLoginEndpoint()
 	startSignupEndpoint()
 }
 
+func init() {
+
+}
+
 func startLoginEndpoint() {
-	userRouter.POST("/login", func(ctx *gin.Context) {
+	_UserRouter.POST("/login", func(ctx *gin.Context) {
 		username := ctx.Request.Header.Get("username")
 		hashedPassword := ctx.Request.Header.Get("hashedPassword")
 		if username == "" || hashedPassword == "" {
@@ -42,7 +46,7 @@ func startLoginEndpoint() {
 }
 
 func startSignupEndpoint() {
-	userRouter.POST("/signup", func(ctx *gin.Context) {
+	_UserRouter.POST("/signup", func(ctx *gin.Context) {
 		ctx.JSON(200, gin.H{
 			"Signup": "Success",
 		})
