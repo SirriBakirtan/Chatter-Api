@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"../models"
+	"Chatter-Api/models"
 	"context"
 	"errors"
 	"time"

@@ -1,8 +1,8 @@
 package services
 
 import (
-	"../models"
-	"../repositories"
+	"Chatter-Api/models"
+	"Chatter-Api/repositories"
 )
 
 var UserService _UserService

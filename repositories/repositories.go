@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"../config"
+	"Chatter-Api/config"
 	"context"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"

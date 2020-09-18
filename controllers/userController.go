@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"../models"
-	"../services"
+	"Chatter-Api/models"
+	"Chatter-Api/services"
 	"github.com/gin-gonic/gin"
 )
 

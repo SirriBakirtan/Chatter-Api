@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./app/controllers"
+	"Chatter-Api/controllers"
 	"github.com/gin-gonic/gin"
 )
 
