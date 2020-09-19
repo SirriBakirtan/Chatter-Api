@@ -1,10 +1,11 @@
 package repositories
 
 import (
-	"../models"
 	"context"
 	"errors"
 	"time"
+
+	"../models"
 )
 
 var UserRepository _UserRepository
@@ -24,8 +25,14 @@ func (_UserRepository) GetUser(user models.User) (models.User, error) {
 	return user, nil
 }
 
-func (_UserRepository) CreateUser(user models.User) bool {
-	return true
+func (_UserRepository) CreateUser(user models.User) (models.User, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	_, err := UserRepository.collection.InsertOne(ctx, user)
+	if err != nil {
+		return models.User{}, errors.New("Not Saved")
+	}
+	return user, nil
 }
 
 func (_UserRepository) UpdateUser(user models.User) bool {
