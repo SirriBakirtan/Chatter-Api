@@ -8,4 +8,8 @@ func StartControllers() {
 	_Router = gin.Default()
 	_StartUserController()
 	_StartConversationController()
+
+	if err := _Router.Run(":12400"); err != nil {
+		panic(err)
+	}
 }
