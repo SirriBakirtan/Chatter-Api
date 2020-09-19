@@ -1,7 +1,7 @@
 package config
 
-var Username = "dbAdmin"
-var Password = "jtb7w3Ax5NMFRmze"
+var Username = ""
+var Password = ""
 var Url = "personalprojectcluster.udqwt.mongodb.net"
 var DbName = "Chatter"
 
