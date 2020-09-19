@@ -47,8 +47,21 @@ func startLoginEndpoint() {
 
 func startSignupEndpoint() {
 	_UserRouter.POST("/signup", func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{
-			"Signup": "Success",
-		})
+		username := ctx.Request.Header.Get("username")
+		hashedPassword := ctx.Request.Header.Get("hashedPassword")
+		if services.UserService.SignUp(models.User{
+			Username:       username,
+			HashedPassword: hashedPassword,
+		}) {
+			ctx.JSON(200, gin.H{
+				"SignUp": "Success!",
+			})
+			return
+		} else {
+			ctx.JSON(401, gin.H{
+				"SignUp": "Invalid credentials!",
+			})
+			return
+		}
 	})
 }
