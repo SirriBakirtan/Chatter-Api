@@ -20,18 +20,18 @@ func init() {
 
 func startLoginEndpoint() {
 	_UserRouter.POST("/login", func(ctx *gin.Context) {
-		username := ctx.Request.Header.Get("username")
+		email := ctx.Request.Header.Get("email")
 		hashedPassword := ctx.Request.Header.Get("hashedPassword")
-		if username == "" || hashedPassword == "" {
+		if email == "" || hashedPassword == "" {
 			ctx.JSON(400, gin.H{
 				"Status": "Missing credentials!",
 			})
 			return
 		}
-		if services.UserService.Login(models.User{
-			Username:       username,
+		if err := services.UserService.Login(models.User{
+			Email:          email,
 			HashedPassword: hashedPassword,
-		}) {
+		}); err == nil {
 			ctx.JSON(200, gin.H{
 				"Status": "Success!",
 			})
@@ -49,10 +49,10 @@ func startSignupEndpoint() {
 	_UserRouter.POST("/signup", func(ctx *gin.Context) {
 		username := ctx.Request.Header.Get("username")
 		hashedPassword := ctx.Request.Header.Get("hashedPassword")
-		if services.UserService.SignUp(models.User{
-			Username:       username,
+		if err := services.UserService.SignUp(models.User{
+			Email:          username,
 			HashedPassword: hashedPassword,
-		}) {
+		}); err == nil {
 			ctx.JSON(200, gin.H{
 				"SignUp": "Success!",
 			})
