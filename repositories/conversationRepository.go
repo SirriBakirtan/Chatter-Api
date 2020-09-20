@@ -3,7 +3,6 @@ package repositories
 import (
 	"Chatter-Api/models"
 	"context"
-	"errors"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
@@ -23,10 +22,10 @@ func (_ConversationRepository) GetConversations(conversationFilter bson.M, opts 
 	cursor, err := ConversationRepository.collection.Find(ctx, conversationFilter)
 	var conversationArray []models.Conversation
 	if err != nil {
-		return conversationArray, errors.New("conn_failed")
+		return conversationArray, err
 	}
 	if err := cursor.All(ctx, &conversationArray); err != nil {
-		return conversationArray, errors.New("cursor_failed")
+		return conversationArray, err
 	}
 	return conversationArray, nil
 }

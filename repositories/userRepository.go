@@ -3,7 +3,6 @@ package repositories
 import (
 	"Chatter-Api/models"
 	"context"
-	"errors"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -26,10 +25,10 @@ func (_UserRepository) GetUsers(userFilter bson.M, opts bson.M) ([]models.User, 
 		userFilter)
 	var users []models.User
 	if err != nil {
-		return users, errors.New("conn_failed")
+		return users, err
 	}
 	if err := cursor.All(ctx, &users); err != nil {
-		return users, errors.New("cursor_failed")
+		return users, err
 	}
 	return users, nil
 }
