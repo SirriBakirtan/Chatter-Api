@@ -4,7 +4,6 @@ import (
 	"Chatter-Api/models"
 	"context"
 	"errors"
-	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
@@ -32,38 +31,28 @@ func (_ConversationRepository) GetConversations(conversationFilter bson.M, opts 
 	return conversationArray, nil
 }
 
-func (_ConversationRepository) CreateConversation(conversation models.Conversation) bool {
+func (_ConversationRepository) CreateConversation(conversation models.Conversation) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	_, err := ConversationRepository.collection.InsertOne(ctx, conversation)
-	if err != nil {
-		fmt.Println(err)
-		return false
-	}
-	return true
+	return err
 }
 
-func (_ConversationRepository) UpdateConversation(conversation models.Conversation) bool {
+func (_ConversationRepository) UpdateConversation(conversation models.Conversation) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	_, err := ConversationRepository.collection.ReplaceOne(
 		ctx,
 		bson.M{"_id": conversation.Id},
 		conversation)
-	if err != nil {
-		return false
-	}
-	return true
+	return err
 }
 
-func (_ConversationRepository) DeleteConversation(conversationId primitive.ObjectID) bool {
+func (_ConversationRepository) DeleteConversation(conversationId primitive.ObjectID) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	_, err := ConversationRepository.collection.DeleteOne(
 		ctx,
 		bson.M{"_id": conversationId})
-	if err != nil {
-		return false
-	}
-	return true
+	return err
 }

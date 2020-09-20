@@ -34,18 +34,14 @@ func (_UserRepository) GetUsers(userFilter bson.M, opts bson.M) ([]models.User, 
 	return users, nil
 }
 
-func (_UserRepository) CreateUser(user models.User) bool {
+func (_UserRepository) CreateUser(user models.User) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	_, err := UserRepository.collection.InsertOne(ctx, user)
-	if err != nil {
-		fmt.Println(err)
-		return false
-	}
-	return true
+	return err
 }
 
-func (_UserRepository) UpdateUser(user models.User) bool {
+func (_UserRepository) UpdateUser(user models.User) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	fmt.Println(user.Id)
@@ -55,20 +51,14 @@ func (_UserRepository) UpdateUser(user models.User) bool {
 			"_id": user.Id,
 		},
 		user)
-	if err != nil {
-		return false
-	}
-	return true
+	return err
 }
 
-func (_UserRepository) DeleteUser(userId primitive.ObjectID) bool {
+func (_UserRepository) DeleteUser(userId primitive.ObjectID) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	_, err := UserRepository.collection.DeleteOne(
 		ctx,
 		bson.M{"_id": userId})
-	if err != nil {
-		return false
-	}
-	return true
+	return err
 }
